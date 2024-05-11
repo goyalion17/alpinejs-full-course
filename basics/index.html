@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.10/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="app.js"></script>
+    <title>Alpine.js Basics</title>
+  </head>
+  <body class="flex flex-col space-y-6 items-center">
+    <!-- x-data, x-text, x-html -->
+    <div
+      x-data="{name: 'Iryna', message: 'Hello <b>world</b>'}"
+      class="bg-slate-100 p-3"
+    >
+      <p x-text="name"></p>
+      <p x-html="message"></p>
+    </div>
+    <div
+      class="bg-green-900 text-white p-2"
+      x-data
+      x-text="await (await
+      fetch('https://jsonplaceholder.typicode.com/todos/1')).text()"
+    ></div>
+
+    <!-- x-data with methods -->
+    <div
+      class="bg-pink-700 p-4 text-white hover:bg-pink-800"
+      x-data="{
+        message: 'Click to change', 
+        change(){
+            this.message = 'Changed message'
+    }}"
+    >
+      <span x-text="message" @click="change()"></span>
+    </div>
+
+    <!-- Re-usable Data -->
+    <div x-data="dropdown">
+      <button
+        class="bg-orange-700 p-4 text-white hover:bg-orange-800 rounded-md"
+        @click="toggle"
+      >
+        Open/Close
+      </button>
+      <div x-show="open">Content...</div>
+    </div>
+    <div x-data="dropdown">
+      <button
+        class="bg-orange-700 p-4 text-white hover:bg-orange-800 rounded-md"
+        @click="toggle"
+      >
+        Open/Close
+      </button>
+      <div x-show="open">Content...</div>
+    </div>
+
+    <!-- Data-Less components -->
+    <div
+      x-data
+      @click="alert('Something')"
+      class="bg-amber-700 p-4 text-white hover:bg-amber-800 rounded-md"
+    >
+      Click me
+    </div>
+
+    <!-- Data coming from Store -->
+    <div
+      x-data
+      x-text="$store.currentUser.username"
+      class="bg-yellow-700 p-4 text-white hover:bg-yellow-800 rounded-md"
+    >
+      Click me
+    </div>
+
+    <!-- x-init -->
+    <div x-init="console.log('Init')"></div>
+    <div
+      x-data="{
+        init(){
+            console.log('I am initialized')
+        }
+    }"
+    ></div>
+    <div
+      x-data="{todo: {}}"
+      x-init="todo = await((await fetch('https://jsonplaceholder.typicode.com/todos/1')).json())"
+    >
+      <p x-text="todo.title" class="bg-lime-100 p-3"></p>
+    </div>
+
+    <!-- Scoping -->
+    <div
+      x-data="{
+        name: 'Iryna',
+        age: '30',
+        gender: 'female'
+    }"
+    >
+      <div
+        x-data="{
+        name: 'Max',
+        age: '15'
+        }"
+      >
+        <div x-data="{name: 'Mary'}">
+          <p x-text="name" class="bg-emerald-100 p-3 mb-1"></p>
+          <p x-text="age" class="bg-cyan-100 p-3 mb-1"></p>
+          <p x-text="gender" class="bg-teal-200 p-3"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Getters & Setters -->
+    <div
+      x-data="{
+        open: false,
+        get isOpen(){
+            return this.open
+        },
+        set isOpen(open) {
+            this.open = open
+        },
+        toggle(){
+            this.isOpen = !this.isOpen
+        }
+    }"
+    >
+      <button
+        @click="toggle"
+        class="bg-sky-700 p-4 text-white hover:bg-sky-800 rounded-full"
+      >
+        Push
+      </button>
+      <div x-show="open">Content...</div>
+    </div>
+
+    <!-- x-show & x-transition -->
+    <div
+      x-data="{
+        open: false,
+        toggle(){
+            this.open = !this.open
+        }
+    }"
+    >
+      <button
+        @click="toggle"
+        class="bg-blue-700 p-4 text-white hover:bg-blue-800 rounded-full"
+      >
+        Push
+      </button>
+      <div
+        x-show="open"
+        x-transition:enter.duration.200ms
+        x-transition:leave.duration.1000ms
+      >
+        Content...
+      </div>
+    </div>
+
+    <!-- x-if -->
+    <div
+      x-data="{
+        open: false,
+        toggle(){
+            this.open = !this.open
+        }
+    }"
+    >
+      <button
+        @click="toggle"
+        class="bg-indigo-700 p-4 text-white hover:bg-indigo-800 rounded-full"
+      >
+        Push
+      </button>
+      <template x-if="open">
+        <div>Content...</div>
+      </template>
+    </div>
+
+    <!-- x-for -->
+    <div
+      x-data="{posts:
+        [
+        {id: 1, title: 'Post 1'},
+        {id: 2, title: 'Post 2'}
+        ]
+    }"
+    >
+      <template x-for="post in posts" :key="post.id">
+        <h2 x-text="post.id + ' ' + post.title" class="bg-violet-100 p-3"></h2>
+      </template>
+    </div>
+
+    <!-- x-for in range -->
+    <div x-data>
+      <template x-for="n in 5">
+        <p x-text="n"></p>
+      </template>
+    </div>
+
+    <!-- x-bind: class -->
+    <div x-data="{clicked: false}">
+      <button
+        @click="clicked = true"
+        class="p-4 text-white rounded-md"
+        :class="clicked ? 'bg-purple-700 hover:bg-purple-800' : 'bg-fuchsia-500 hover:bg-fuchsia-600'"
+      >Click</button>
+    </div>
+
+    <footer x-data>
+      <p x-text="new Date().getFullYear()"></p>
+    </footer>
+  </body>
+</html>
