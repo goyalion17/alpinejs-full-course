@@ -207,10 +207,179 @@
     <!-- x-bind: class -->
     <div x-data="{clicked: false}">
       <button
-        @click="clicked = true"
+        @click="clicked = !clicked"
         class="p-4 text-white rounded-md"
         :class="clicked ? 'bg-purple-700 hover:bg-purple-800' : 'bg-fuchsia-500 hover:bg-fuchsia-600'"
-      >Click</button>
+      >
+        Click
+      </button>
+    </div>
+
+    <div x-data="{clicked: false}">
+      <button
+        @click="clicked = !clicked"
+        class="p-4 rounded-md border"
+        :class="{'bg-purple-700 hover:bg-purple-800 text-white' : clicked}"
+      >
+        Click
+      </button>
+    </div>
+
+    <!-- x-bind: style -->
+    <div x-data="{clicked: false}">
+      <button
+        @click="clicked = !clicked"
+        class="p-4 text-white rounded-md"
+        :style="{backgroundColor: clicked ? '#f9a8d4' : '#be123c'}"
+      >
+        Click me
+      </button>
+    </div>
+
+    <!-- x-bind: id -->
+    <button
+      x-data="{id:''}"
+      :id="id"
+      @click="id = Math.round(Math.random() * 1000000)"
+      class="bg-rose-500 p-4 text-white hover:bg-rose-600 rounded"
+    >
+      Button
+    </button>
+
+    <!-- Challenge -->
+    <div
+      x-data="{colors: ['red', 'green', 'blue', 'orange', 'purple']}"
+      class="flex items-center space-x-2"
+    >
+      <template x-for="color in colors">
+        <div
+          :style="{backgroundColor : color}"
+          class="p-4 text-white text-center rounded-md"
+          x-text="color"
+        ></div>
+      </template>
+    </div>
+
+    <!-- x-on, @keyup, @click.outside, $event -->
+    <div
+      x-data
+      @scroll.window="console.log('scroll')"
+      @edit="console.log('edit was triggered')"
+      class="flex flex-col space-y-4"
+    >
+      <button
+        @click="console.log('Clicked', $event)"
+        class="bg-slate-800 p-4 text-white hover:bg-slate-900 rounded"
+      >
+        Clicked
+      </button>
+      <input
+        type="text"
+        @keyup.enter="console.log('Keyup Enter')"
+        class="border p-2"
+        placeholder="enter"
+      />
+
+      <div x-data="{modal: false}">
+        <button
+          @click="modal=!modal"
+          class="bg-gray-800 p-4 text-white hover:bg-gray-900 rounded"
+        >
+          Show Modal
+        </button>
+        <div x-show="modal" @click.outside="modal = false">
+          Modal Content...
+        </div>
+      </div>
+
+      <input
+        type="text"
+        @keyup.once="console.log('Keyup once')"
+        class="border p-2"
+        placeholder="once"
+      />
+      <input
+        type="text"
+        @keyup.debounce="console.log('Keyup debounce')"
+        class="border p-2"
+        placeholder="debounce"
+      />
+      <input
+        type="text"
+        @keyup.throttle="console.log('Keyup throttle')"
+        class="border p-2"
+        placeholder="throttle"
+      />
+
+      <button
+        @click="$dispatch('edit')"
+        class="bg-zinc-800 p-4 text-white hover:bg-zinc-900 rounded"
+      >
+        Edit
+      </button>
+    </div>
+
+    <!-- x-model -->
+    <div x-data="{keyword: null}">
+      <!-- x-model="keyword" -->
+      <input
+        type="text"
+        x-model.debounce.500ms="keyword"
+        placeholder="Search for items"
+        class="border p-2"
+      />
+      <p x-text="keyword"></p>
+    </div>
+
+    <!-- Challenge -->
+    <div
+      x-data="{text: null, color: '', id: ''}"
+      class="flex flex-col items-center space-y-4"
+    >
+      <button
+        x-text="text"
+        :id="id"
+        :style="{backgroundColor: color}"
+        class="bg-neutral-800 p-4 text-white hover:bg-neutral-900 rounded min-h-[56px] min-w-[109px]"
+      ></button>
+
+      <input type="text" x-model="text" class="border p-2" placeholder="text" />
+      <input
+        type="text"
+        x-model="color"
+        class="border p-2"
+        placeholder="background color"
+      />
+      <input type="text" x-model="id" class="border p-2" placeholder="id" />
+    </div>
+
+    <!-- x-effect -->
+    <div
+      x-data="{name: 'Iryna', message: null}"
+      class="flex flex-col space-y-4"
+    >
+      <p x-effect="message = 'Hello ' + name"></p>
+      <p x-effect="console.log(name)"></p>
+      <p
+        x-text="message"
+        class="bg-stone-800 p-4 text-white hover:bg-stone-900 rounded"
+      ></p>
+      <button
+        @click="name = 'Mary'"
+        class="bg-stone-800 p-4 text-white hover:bg-stone-900 rounded"
+      >
+        Change Name
+      </button>
+    </div>
+
+    <!-- x-ignore -->
+    <div x-data="{name: 'Iryna'}">
+      <div x-ignore>
+        <p
+          x-text="name"
+          class="bg-red-800 p-4 text-white hover:bg-red-900 rounded ring-4 ring-yellow-500"
+        ></p>
+      </div>
     </div>
 
     <footer x-data>
