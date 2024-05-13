@@ -11,7 +11,7 @@
     <script src="app.js"></script>
     <title>Alpine.js Basics</title>
   </head>
-  <body class="flex flex-col space-y-6 items-center">
+  <body class="flex flex-col space-y-6 items-center relative">
     <!-- x-data, x-text, x-html -->
     <div
       x-data="{name: 'Iryna', message: 'Hello <b>world</b>'}"
@@ -380,6 +380,55 @@
           class="bg-red-800 p-4 text-white hover:bg-red-900 rounded ring-4 ring-yellow-500"
         ></p>
       </div>
+    </div>
+
+    <!-- x-ref -->
+    <div x-data="" class="flex flex-col space-y-4">
+      <input
+        x-ref="inputEmail"
+        type="text"
+        class="border p-2 rounded"
+        placeholder="Email"
+      />
+      <button
+        @click="$refs.inputEmail.style.borderColor = 'red'"
+        class="bg-orange-800 p-4 text-white hover:bg-orange-900 rounded"
+      >
+        x-ref
+      </button>
+    </div>
+
+    <!-- x-clock -->
+    <div x-data="dropdown">
+      <button
+        @click="toggle"
+        class="bg-amber-800 p-4 text-white hover:bg-amber-900 rounded"
+      >
+        x-cloak
+      </button>
+      <div x-show="open" x-cloak>Content...</div>
+    </div>
+    <style>
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
+
+    <!-- x-teleport -->
+    <div x-data="" class="flex flex-col space-y-4 bg-slate-100 p-8">
+      <p>Some Long Text</p>
+      <div x-data="{modal: false}">
+        <button
+          @click="modal = true"
+          class="bg-yellow-800 p-4 text-white hover:bg-orange-900 rounded"
+        >
+          x-teleport
+        </button>
+        <template x-teleport="body">
+          <div x-show="modal" class="absolute inset-0 m-auto w-20 h-20 bg-blue-500 p-4">Modal Content...</div>
+        </template>
+      </div>
+      <p>Another Content</p>
     </div>
 
     <footer x-data>
