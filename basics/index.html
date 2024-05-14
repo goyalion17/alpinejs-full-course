@@ -425,10 +425,75 @@
           x-teleport
         </button>
         <template x-teleport="body">
-          <div x-show="modal" class="absolute inset-0 m-auto w-20 h-20 bg-blue-500 p-4">Modal Content...</div>
+          <div
+            x-show="modal"
+            class="absolute inset-0 m-auto w-20 h-20 bg-blue-500 p-4"
+          >
+            Modal Content...
+          </div>
         </template>
       </div>
       <p>Another Content</p>
+    </div>
+
+    <!-- Magic Properties -->
+    <!-- $el -->
+    <div x-data x-init="console.log('Init', $el)">
+      <button
+        @click="console.log($el)"
+        class="bg-lime-800 p-4 text-white hover:bg-lime-900 rounded"
+      >
+        $el
+      </button>
+    </div>
+
+    <!-- x$watch -->
+    <div
+      x-data="{modal: false}"
+      x-init="$watch('modal', (val, old) => console.log(val, old))"
+    >
+      <button
+        @click="modal = !modal"
+        class="bg-green-800 p-4 text-white hover:bg-green-900 rounded"
+      >
+        $watch
+      </button>
+    </div>
+
+    <!-- $nextTick -->
+    <div x-data="{name: 'Iryna'}">
+      <button
+        @click="name = 'Mary'; $nextTick(() => { console.log($refs.p.innerText) });"
+        class="bg-emerald-800 p-4 text-white hover:bg-emerald-900 rounded"
+      >
+        $nextTick
+      </button>
+      <p
+        x-ref="p"
+        x-text="name"
+        class="bg-green-200 p-2 hover:bg-green-300 rounded"
+      ></p>
+    </div>
+
+    <!-- $root -->
+    <div x-data="">
+      <div x-data="">
+        <div>
+          <button
+            @click="console.log($root)"
+            class="bg-teal-800 p-4 text-white hover:bg-teal-900 rounded"
+          >
+            $root
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- $data -->
+    <div x-data="{name: 'Iryna'}">
+      <div>
+        <button @click="console.log($data.name)" class="bg-cyan-800 p-4 text-white hover:bg-cyan-900 rounded">$data</button>
+      </div>
     </div>
 
     <footer x-data>
