@@ -492,7 +492,23 @@
     <!-- $data -->
     <div x-data="{name: 'Iryna'}">
       <div>
-        <button @click="console.log($data.name)" class="bg-cyan-800 p-4 text-white hover:bg-cyan-900 rounded">$data</button>
+        <button
+          @click="console.log($data.name)"
+          class="bg-cyan-800 p-4 text-white hover:bg-cyan-900 rounded"
+        >
+          $data
+        </button>
+      </div>
+    </div>
+
+    <!-- $id -->
+    <div x-data>
+      <div x-id="['text-input']">
+        <label
+          :for="$id('text-input')"
+          class="bg-sky-800 p-4 text-white hover:bg-sky-900 rounded"
+        >$id</label>
+        <input class="border p-2 rounded" type="text" :id="$id('text-input')" />
       </div>
     </div>
 

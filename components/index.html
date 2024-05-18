@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.10/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="app.js"></script>
+    <title>Alpine.js Course Components</title>
+  </head>
+  <body class="bg-gray-100 flex flex-col p-8">
+    <!-- Dropdown -->
+    <div x-data="{open: false}">
+      <button
+        @click="open = !open"
+        class="inline-flex items-center py-2 px-6 bg-purple-600 hover:bg-opacity-95 text-white rounded-md shadow leading-2"
+      >
+        Dropdown
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-4 h-4 ml-2 transition-all"
+          :class="{'rotate-180' : open}"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m19.5 8.25-7.5 7.5-7.5-7.5"
+          />
+        </svg>
+      </button>
+      <ul
+        x-show="open"
+        @click.outside="open = false"
+        x-transition
+        class="bg-white shadow-md w-[160px] py-1"
+      >
+        <li><a class="py-1 px-2 hover:bg-gray-200 block" href="">Open</a></li>
+        <li><a class="py-1 px-2 hover:bg-gray-200 block" href="">Edit</a></li>
+        <li><a class="py-1 px-2 hover:bg-gray-200 block" href="">Delete</a></li>
+      </ul>
+    </div>
+
+    <!-- Modal -->
+    <div x-data=""></div>
+
+    <!-- Tabs -->
+    <div x-data=""></div>
+
+    <!-- Carousel -->
+    <div x-data=""></div>
+
+    <!-- Accordion -->
+    <div x-data=""></div>
+
+    <!-- Notification -->
+    <div x-data=""></div>
+
+    <!-- Popover -->
+    <div x-data=""></div>
+  </body>
+</html>
